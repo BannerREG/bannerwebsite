@@ -32,6 +32,7 @@
       --border: #e2e0dc;
       --border-light: #eeedeb;
       --input-bg: #ffffff;
+      --row-accent: #f7f6f4; /* subtle in-card tint (table row hover, prop-name column, calc cells) — same as --warm-gray in light mode, but kept separate since --warm-gray is also the page background and the two need to move in opposite directions in dark mode */
       --navy-text: #1b2a4a; /* heading/label text — same as --navy in light mode, but overridden separately in dark mode since --navy also serves as a dark background elsewhere (header, buttons) and can't just turn light */
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
@@ -52,6 +53,7 @@
       --warm-gray: #14151d;
       --card: #1c1e2a;
       --input-bg: #262838;
+      --row-accent: #262838;
       --text: #f2f2f6;
       --text-mid: #cfcfda;
       --text-light: #9a9aac;
@@ -78,7 +80,7 @@
 
     .tabs { display: flex; gap: 0; background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.25rem; border: 1px solid var(--border-light); }
     .tab { flex: 1; padding: 0.75rem 1.25rem; text-align: center; font-family: var(--sans); font-weight: 600; font-size: 0.82rem; cursor: pointer; border-bottom: 2.5px solid transparent; transition: all 0.2s; color: var(--text-light); display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em; }
-    .tab:hover { background: var(--warm-gray); color: var(--text-mid); }
+    .tab:hover { background: var(--row-accent); color: var(--text-mid); }
     .tab.active { border-bottom-color: var(--steel); color: var(--navy-text); background: var(--sky-pale); }
     .tab svg { width: 16px; height: 16px; }
     .tab-content { display: none; }
@@ -92,7 +94,7 @@
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
     @media (max-width: 1100px) { .grid-2 { grid-template-columns: 1fr; } .grid-4 { grid-template-columns: 1fr 1fr; } }
 
-    .drop-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2.25rem 2rem; text-align: center; background: var(--warm-gray); transition: all 0.2s; cursor: pointer; position: relative; }
+    .drop-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2.25rem 2rem; text-align: center; background: var(--row-accent); transition: all 0.2s; cursor: pointer; position: relative; }
     .drop-zone.dragover { border-color: var(--steel); background: var(--sky-pale); }
     .drop-zone h2 { font-family: var(--serif); font-size: 1rem; margin-bottom: 0.3rem; color: var(--navy-text); font-weight: 700; }
     .drop-zone p { color: var(--text-light); font-size: 0.82rem; }
@@ -148,15 +150,15 @@
     .unit-mix-table th { background: var(--navy); color: white; padding: 0.45rem 0.5rem; text-align: left; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; }
     .unit-mix-table td { padding: 0.3rem 0.35rem; border-bottom: 1px solid var(--border-light); }
     .unit-mix-table input { width: 100%; padding: 0.3rem 0.4rem; border: 1px solid var(--border); border-radius: 4px; font-family: var(--sans); font-size: 0.8rem; }
-    .unit-mix-table .calc-cell { background: var(--warm-gray); font-weight: 600; text-align: center; color: var(--navy-text); font-size: 0.8rem; }
+    .unit-mix-table .calc-cell { background: var(--row-accent); font-weight: 600; text-align: center; color: var(--navy-text); font-size: 0.8rem; }
 
     .table-wrapper { overflow-x: auto; background: var(--card); border-radius: var(--radius); border: 1px solid var(--border-light); }
     table.comp-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
     table.comp-table thead th { background: var(--navy); color: white; padding: 0.55rem 0.7rem; text-align: left; font-weight: 600; white-space: nowrap; position: sticky; top: 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.02em; }
     table.comp-table thead th.subject-col { background: var(--steel); }
     table.comp-table tbody td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--border-light); white-space: nowrap; }
-    table.comp-table tbody tr:hover { background: var(--warm-gray); }
-    table.comp-table tbody td.prop-name { font-weight: 600; font-family: var(--serif); font-size: 0.78rem; background: var(--warm-gray); }
+    table.comp-table tbody tr:hover { background: var(--row-accent); }
+    table.comp-table tbody td.prop-name { font-weight: 600; font-family: var(--serif); font-size: 0.78rem; background: var(--row-accent); }
     table.comp-table tbody td.subject-col { background: var(--subject-highlight); font-weight: 600; }
     table.comp-table tbody tr.totals-row { background: var(--sky-pale); font-weight: 700; }
     table.comp-table tbody tr.totals-row td { border-top: 2px solid var(--navy); font-weight: 700; }
@@ -205,7 +207,7 @@
     .guide-step-num { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--steel); color: white; font-family: var(--serif); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
     .guide-step-body h4 { font-family: var(--sans); font-size: 0.88rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.15rem; }
     .guide-step-body p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
-    .guide-tab-card { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.9rem; border: 1px solid var(--border-light); border-radius: 8px; background: var(--warm-gray); }
+    .guide-tab-card { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.9rem; border: 1px solid var(--border-light); border-radius: 8px; background: var(--row-accent); }
     .guide-tab-card svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--steel); margin-top: 0.1rem; }
     .guide-tab-card h4 { font-family: var(--serif); font-size: 0.88rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.2rem; }
     .guide-tab-card p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
@@ -508,7 +510,7 @@
             </div>
             <div class="form-group">
               <label>Total Units</label>
-              <input type="number" id="subjectTotalUnits" placeholder="Auto-calculated" readonly tabindex="-1" style="background:var(--warm-gray); color:var(--text-mid);">
+              <input type="number" id="subjectTotalUnits" placeholder="Auto-calculated" readonly tabindex="-1" style="background:var(--row-accent); color:var(--text-mid);">
             </div>
             <div class="form-group">
               <label>Year Built</label>
