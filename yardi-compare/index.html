@@ -31,14 +31,41 @@
       --text-light: #8a8a9a;
       --border: #e2e0dc;
       --border-light: #eeedeb;
+      --input-bg: #ffffff;
+      --navy-text: #1b2a4a; /* heading/label text — same as --navy in light mode, but overridden separately in dark mode since --navy also serves as a dark background elsewhere (header, buttons) and can't just turn light */
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
       --serif: 'Libre Baskerville', 'Times New Roman', Georgia, serif;
       --sans: Calibri, 'Segoe UI', -apple-system, sans-serif;
       --radius: 8px;
     }
+    html[data-theme="dark"] {
+      --navy-light: #34508a;
+      --steel: #7aa6df;
+      --sky-pale: #1c2b42;
+      --subject-highlight: #2c3f5c;
+      --gold: #d9bc6a;
+      --green: #4fbd77;
+      --green-light: #1e3a28;
+      --red: #e2827f;
+      --red-light: #3d2325;
+      --warm-gray: #14151d;
+      --card: #1c1e2a;
+      --input-bg: #262838;
+      --text: #f2f2f6;
+      --text-mid: #cfcfda;
+      --text-light: #9a9aac;
+      --border: #3a3d4d;
+      --border-light: #2b2d3a;
+      --navy-text: #eef2f9;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.55);
+    }
+    html[data-theme="dark"] body { background: var(--warm-gray); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: var(--sans); background: var(--warm-gray); color: var(--text); min-height: 100vh; font-size: 14px; }
+    input, select, textarea { background: var(--input-bg); color: var(--text); }
+    ::placeholder { color: var(--text-light); opacity: 1; }
 
     header { background: var(--navy); color: white; padding: 0.9rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 50; }
     .logo { display: flex; align-items: center; gap: 0.75rem; }
@@ -52,13 +79,13 @@
     .tabs { display: flex; gap: 0; background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.25rem; border: 1px solid var(--border-light); }
     .tab { flex: 1; padding: 0.75rem 1.25rem; text-align: center; font-family: var(--sans); font-weight: 600; font-size: 0.82rem; cursor: pointer; border-bottom: 2.5px solid transparent; transition: all 0.2s; color: var(--text-light); display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em; }
     .tab:hover { background: var(--warm-gray); color: var(--text-mid); }
-    .tab.active { border-bottom-color: var(--steel); color: var(--navy); background: var(--sky-pale); }
+    .tab.active { border-bottom-color: var(--steel); color: var(--navy-text); background: var(--sky-pale); }
     .tab svg { width: 16px; height: 16px; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
     .card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
-    .card-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--navy); display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border-light); }
+    .card-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--navy-text); display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border-light); }
     .card-title svg { width: 18px; height: 18px; color: var(--steel); flex-shrink: 0; }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -67,14 +94,14 @@
 
     .drop-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2.25rem 2rem; text-align: center; background: var(--warm-gray); transition: all 0.2s; cursor: pointer; position: relative; }
     .drop-zone.dragover { border-color: var(--steel); background: var(--sky-pale); }
-    .drop-zone h2 { font-family: var(--serif); font-size: 1rem; margin-bottom: 0.3rem; color: var(--navy); font-weight: 700; }
+    .drop-zone h2 { font-family: var(--serif); font-size: 1rem; margin-bottom: 0.3rem; color: var(--navy-text); font-weight: 700; }
     .drop-zone p { color: var(--text-light); font-size: 0.82rem; }
     .drop-zone svg { margin-bottom: 0.5rem; color: var(--steel); }
     .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 
     .stat-card { background: var(--card); border-radius: var(--radius); padding: 1rem 1.15rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); border-left: 4px solid var(--steel); }
     .stat-card .stat-label { font-family: var(--sans); font-size: 0.68rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
-    .stat-card .stat-value { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-top: 0.2rem; }
+    .stat-card .stat-value { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--navy-text); margin-top: 0.2rem; }
     .stat-card .stat-sub { font-size: 0.72rem; color: var(--text-light); margin-top: 0.1rem; }
     .stat-card.positive { border-left-color: var(--green); }
     .stat-card.negative { border-left-color: var(--red); }
@@ -82,7 +109,7 @@
 
     .property-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.65rem; margin-top: 0.65rem; }
     .property-card { background: var(--card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 0.85rem 1rem; }
-    .property-card .name { font-family: var(--serif); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.15rem; color: var(--navy); }
+    .property-card .name { font-family: var(--serif); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.15rem; color: var(--navy-text); }
     .property-card .address { font-size: 0.75rem; color: var(--text-light); margin-bottom: 0.1rem; }
     .property-card .meta { font-size: 0.75rem; color: var(--text-mid); margin-bottom: 0.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
     .property-card .meta-item { display: flex; align-items: center; gap: 0.25rem; }
@@ -114,14 +141,14 @@
     .subject-form { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
     .subject-form .full-width { grid-column: 1 / -1; }
     .form-group label { display: block; font-family: var(--sans); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.2rem; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.03em; }
-    .form-group input { width: 100%; padding: 0.45rem 0.6rem; border: 1px solid var(--border); border-radius: 5px; font-family: var(--sans); font-size: 0.85rem; background: white; }
+    .form-group input { width: 100%; padding: 0.45rem 0.6rem; border: 1px solid var(--border); border-radius: 5px; font-family: var(--sans); font-size: 0.85rem; background: var(--input-bg); color: var(--text); }
     .form-group input:focus { outline: none; border-color: var(--steel); box-shadow: 0 0 0 2px rgba(74,111,165,0.1); }
 
     .unit-mix-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 0.4rem; }
     .unit-mix-table th { background: var(--navy); color: white; padding: 0.45rem 0.5rem; text-align: left; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; }
     .unit-mix-table td { padding: 0.3rem 0.35rem; border-bottom: 1px solid var(--border-light); }
     .unit-mix-table input { width: 100%; padding: 0.3rem 0.4rem; border: 1px solid var(--border); border-radius: 4px; font-family: var(--sans); font-size: 0.8rem; }
-    .unit-mix-table .calc-cell { background: var(--warm-gray); font-weight: 600; text-align: center; color: var(--navy); font-size: 0.8rem; }
+    .unit-mix-table .calc-cell { background: var(--warm-gray); font-weight: 600; text-align: center; color: var(--navy-text); font-size: 0.8rem; }
 
     .table-wrapper { overflow-x: auto; background: var(--card); border-radius: var(--radius); border: 1px solid var(--border-light); }
     table.comp-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
@@ -151,7 +178,7 @@
     .auth-gate.hidden { display: none; }
     .auth-gate-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 2.25rem 2rem; width: 100%; max-width: 380px; text-align: center; }
     .auth-gate-box .logo-mark { display: flex; justify-content: center; margin-bottom: 0.85rem; }
-    .auth-gate-box h2 { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .auth-gate-box h2 { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.3rem; }
     .auth-gate-box p { font-size: 0.8rem; color: var(--text-light); margin-bottom: 1.25rem; }
     .auth-gate-box input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-family: var(--sans); font-size: 0.95rem; margin-bottom: 0.85rem; text-align: center; letter-spacing: 0.04em; }
     .auth-gate-box input:focus { outline: none; border-color: var(--steel); box-shadow: 0 0 0 2px rgba(74,111,165,0.15); }
@@ -164,7 +191,7 @@
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(27,42,74,0.55); z-index: 300; align-items: center; justify-content: center; }
     .modal-overlay.show { display: flex; }
     .modal-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; width: 100%; max-width: 420px; }
-    .modal-box h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+    .modal-box h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
     .modal-box p.help-note { margin-bottom: 1rem; }
     .modal-box input { width: 100%; padding: 0.55rem 0.7rem; border: 1px solid var(--border); border-radius: 5px; font-family: var(--sans); font-size: 0.9rem; margin-bottom: 1rem; }
     .modal-box input:focus { outline: none; border-color: var(--steel); box-shadow: 0 0 0 2px rgba(74,111,165,0.1); }
@@ -176,15 +203,15 @@
     .guide-steps { display: flex; flex-direction: column; gap: 0.9rem; }
     .guide-step { display: flex; gap: 0.9rem; align-items: flex-start; }
     .guide-step-num { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--steel); color: white; font-family: var(--serif); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
-    .guide-step-body h4 { font-family: var(--sans); font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 0.15rem; }
+    .guide-step-body h4 { font-family: var(--sans); font-size: 0.88rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.15rem; }
     .guide-step-body p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
     .guide-tab-card { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.9rem; border: 1px solid var(--border-light); border-radius: 8px; background: var(--warm-gray); }
     .guide-tab-card svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--steel); margin-top: 0.1rem; }
-    .guide-tab-card h4 { font-family: var(--serif); font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+    .guide-tab-card h4 { font-family: var(--serif); font-size: 0.88rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.2rem; }
     .guide-tab-card p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
     .guide-feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.75rem; }
     .guide-feature { padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--border-light); background: var(--card); }
-    .guide-feature .guide-feature-title { display: flex; align-items: center; gap: 0.4rem; font-family: var(--sans); font-weight: 700; font-size: 0.8rem; color: var(--navy); margin-bottom: 0.25rem; }
+    .guide-feature .guide-feature-title { display: flex; align-items: center; gap: 0.4rem; font-family: var(--sans); font-weight: 700; font-size: 0.8rem; color: var(--navy-text); margin-bottom: 0.25rem; }
     .guide-feature .guide-feature-title svg { width: 15px; height: 15px; color: var(--steel); }
     .guide-feature p { font-size: 0.76rem; color: var(--text-mid); line-height: 1.5; }
     .guide-note { display: flex; gap: 0.65rem; align-items: flex-start; background: var(--sky-pale); border: 1px solid var(--border-light); border-left: 3px solid var(--steel); border-radius: 6px; padding: 0.85rem 1rem; }
@@ -194,17 +221,17 @@
     .badge { display: inline-block; padding: 0.12rem 0.45rem; border-radius: 3px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
     .badge-subject { background: var(--steel); color: white; }
     .flex-between { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-    .section-label { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .section-label { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--navy-text); }
     .help-note { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
 
     .unit-type-section { margin-bottom: 1.5rem; }
-    .unit-type-section-title { font-family: var(--serif); font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; padding-left: 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .unit-type-section-title { font-family: var(--serif); font-size: 0.92rem; font-weight: 700; color: var(--navy-text); margin-bottom: 0.5rem; padding-left: 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
     .unit-type-section-title svg { width: 16px; height: 16px; color: var(--steel); }
 
     .saved-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.85rem; margin-top: 0.85rem; }
     .saved-card { background: var(--card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1rem 1.15rem; cursor: pointer; transition: all 0.15s; }
     .saved-card:hover { border-color: var(--steel); box-shadow: var(--shadow-lg); transform: translateY(-1px); }
-    .saved-card .saved-name { font-family: var(--serif); font-weight: 700; font-size: 0.9rem; color: var(--navy); margin-bottom: 0.25rem; }
+    .saved-card .saved-name { font-family: var(--serif); font-weight: 700; font-size: 0.9rem; color: var(--navy-text); margin-bottom: 0.25rem; }
     .saved-card .saved-date { font-size: 0.72rem; color: var(--text-light); margin-bottom: 0.45rem; }
     .saved-card .saved-meta { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
     .saved-card .saved-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
@@ -237,6 +264,11 @@
   if (localStorage.getItem('bannerAuthOk') !== 'true') {
     document.getElementById('authGate').classList.remove('hidden');
   }
+  // Runs immediately, before the rest of the page paints, to avoid a flash of the light theme
+  // for anyone who previously chose dark mode.
+  if (localStorage.getItem('bannerDarkMode') === 'true') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
 </script>
 
 <header>
@@ -251,6 +283,13 @@
     </div>
   </div>
   <div class="header-actions">
+    <div class="toggle-row" title="Switch between light and dark theme.">
+      <span class="toggle-label">Dark Mode</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode(this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
     <div class="toggle-row" title="When on, Alcove unit types are folded into Studio across the dashboard, tables, and Excel export. When off, they're kept as their own bedroom-type category.">
       <span class="toggle-label">Group Alcoves w/ Studio</span>
       <label class="toggle-switch">
@@ -439,7 +478,7 @@
           </div>
           <div id="propertiesSection" style="display:none; margin-top:1rem;">
             <div class="flex-between">
-              <span style="font-family:var(--serif); font-size:0.85rem; font-weight:700; color:var(--navy);">Loaded Comps</span>
+              <span style="font-family:var(--serif); font-size:0.85rem; font-weight:700; color:var(--navy-text);">Loaded Comps</span>
               <span class="help-note" id="propCount"></span>
             </div>
             <div class="property-cards" id="propertyCards"></div>
@@ -482,7 +521,7 @@
           </div>
           <div style="margin-top:1.15rem;">
             <div class="flex-between">
-              <label style="font-family:var(--serif); font-size:0.85rem; font-weight:700; color:var(--navy);">Unit Mix</label>
+              <label style="font-family:var(--serif); font-size:0.85rem; font-weight:700; color:var(--navy-text);">Unit Mix</label>
               <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
                 <button class="btn btn-secondary" onclick="suggestUnitMix()" style="font-size:0.75rem; padding:0.3rem 0.65rem;" title="Suggest a unit mix (SF and % of total units per type) based on loaded comps">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
@@ -506,7 +545,7 @@
               <tbody id="subjectMixBody"></tbody>
             </table>
             <div id="unitMixRationale" style="display:none; margin-top:0.75rem; padding:0.75rem 0.9rem; background:var(--sky-pale); border:1px solid var(--steel); border-radius:6px;">
-              <div style="font-family:var(--serif); font-weight:700; font-size:0.8rem; color:var(--navy); margin-bottom:0.35rem; display:flex; align-items:center; gap:0.4rem;">
+              <div style="font-family:var(--serif); font-weight:700; font-size:0.8rem; color:var(--navy-text); margin-bottom:0.35rem; display:flex; align-items:center; gap:0.4rem;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
                 Suggested Unit Mix Rationale
               </div>
@@ -514,7 +553,7 @@
               <div style="font-size:0.7rem; color:var(--text-light); font-style:italic;">Data-driven estimate from your loaded comps' floorplans — not a substitute for market judgment. Review before applying. Rents were left blank; run Suggest Pricing next to fill them in.</div>
             </div>
             <div id="pricingRationale" style="display:none; margin-top:0.75rem; padding:0.75rem 0.9rem; background:var(--sky-pale); border:1px solid var(--steel); border-radius:6px;">
-              <div style="font-family:var(--serif); font-weight:700; font-size:0.8rem; color:var(--navy); margin-bottom:0.35rem; display:flex; align-items:center; gap:0.4rem;">
+              <div style="font-family:var(--serif); font-weight:700; font-size:0.8rem; color:var(--navy-text); margin-bottom:0.35rem; display:flex; align-items:center; gap:0.4rem;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5L19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5L19 5"/><circle cx="12" cy="12" r="4"/></svg>
                 Suggested Pricing Rationale
               </div>
@@ -646,7 +685,7 @@
     <div class="flex-between" style="margin-bottom:0.5rem;">
       <span class="section-label">Saved Comparisons</span>
       <div style="display:flex;align-items:center;gap:0.5rem;">
-        <select id="savedSortSelect" onchange="renderSavedList()" style="padding:0.4rem 0.6rem;border:1px solid var(--border);border-radius:5px;font-family:var(--sans);font-size:0.78rem;background:white;color:var(--text-mid);">
+        <select id="savedSortSelect" onchange="renderSavedList()" style="padding:0.4rem 0.6rem;border:1px solid var(--border);border-radius:5px;font-family:var(--sans);font-size:0.78rem;background:var(--input-bg);color:var(--text-mid);">
           <option value="date-desc">Last Saved (Newest)</option>
           <option value="date-asc">Last Saved (Oldest)</option>
           <option value="name-asc">Name (A–Z)</option>
@@ -716,6 +755,33 @@ function toggleAlcoveGrouping(checked) {
   groupAlcovesWithStudios = checked;
   if (subjectProperty && properties.length > 0) { renderDashboard(); renderTables(); }
 }
+
+// ── Dark Mode ──
+// The <html data-theme="dark"> attribute itself is set by an inline script earlier in <body>
+// (before this file's markup paints) to avoid a flash of the light theme on load. This just
+// keeps the toggle UI and Chart.js's text/grid colors in sync with that.
+function toggleDarkMode(checked) {
+  document.documentElement.setAttribute('data-theme', checked ? 'dark' : 'light');
+  localStorage.setItem('bannerDarkMode', checked ? 'true' : 'false');
+  applyChartTheme();
+}
+
+function applyChartTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (typeof Chart !== 'undefined') {
+    Chart.defaults.color = isDark ? '#cfcfda' : '#4a4a5a';
+    Chart.defaults.borderColor = isDark ? '#3a3d4d' : '#e2e0dc';
+  }
+  const activeTab = document.querySelector('.tab-content.active');
+  if (activeTab && activeTab.id === 'tab-dashboard') renderDashboard();
+  if (activeTab && activeTab.id === 'tab-rentgrowth') renderRentGrowth();
+}
+
+function initDarkModeUI() {
+  document.getElementById('darkModeToggle').checked = document.documentElement.getAttribute('data-theme') === 'dark';
+  applyChartTheme();
+}
+initDarkModeUI();
 
 // ── Unit Type Normalization ──
 function normalizeUnitType(raw) {
@@ -1770,7 +1836,7 @@ function renderRentGrowth() {
     });
     const overallRaw = months.map(m => { let tR = 0, tU = 0; prop.unitTypes.forEach(u => { if (u.monthlyRents && u.monthlyRents[m] > 0) { tR += u.monthlyRents[m] * u.units; tU += u.units; } }); return tU > 0 ? tR / tU : null; });
     const overallGrowth = pctGrowthSeries(overallRaw).map(g => g != null ? Math.round(g * 1000) / 10 : null);
-    datasets.push({ label: 'Overall Wtd Avg', data: overallGrowth, borderColor: '#1a1a2e', backgroundColor: 'transparent', tension: 0.3, pointRadius: 3, borderWidth: 3, borderDash: [4, 3] });
+    datasets.push({ label: 'Overall Wtd Avg', data: overallGrowth, borderColor: Chart.defaults.color, backgroundColor: 'transparent', tension: 0.3, pointRadius: 3, borderWidth: 3, borderDash: [4, 3] });
     datasets.push(zeroLineDataset(months));
 
     const chart = new Chart(document.getElementById(canvasId), { type: 'line', data: { labels: months, datasets }, options: growthOpts });
