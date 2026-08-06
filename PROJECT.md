@@ -1,3 +1,4 @@
+
 # PROJECT.md — Banner Rent Comp Dashboard
 
 > **This file is the single source of truth for this repository.** It is written for both humans and AI coding agents (Claude Code, Codex, Gemini CLI, Cursor, Windsurf, etc.). Assume any AI reading this has no memory of prior sessions — everything needed to work productively should be here or linked from here.
