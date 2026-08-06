@@ -342,7 +342,7 @@
   <div class="tab-content active" id="tab-guide">
     <div class="guide-hero">
       <h2>Welcome to the Rent Comp Dashboard</h2>
-      <p>This tool helps you underwrite a property by comparing it against real market comps sourced from Yardi and CoStar exports. Upload comp data, describe your subject property, and the dashboard builds weighted-average comparisons, rent and $/SF charts, rent growth trends, and a fully formatted, chart-ready Excel workbook &mdash; automatically.</p>
+      <p>This tool helps you underwrite a property by comparing it against real market comps sourced from Yardi and CoStar exports. Upload comp data, describe your subject property, and the dashboard builds weighted-average comparisons, rent and $/SF charts, rent growth trends, a plotted comp map, and a fully formatted, chart-ready Excel workbook &mdash; automatically. Data-driven suggestions for both unit mix and pricing help you start from real comp data instead of a blank guess.</p>
     </div>
 
     <div class="grid-2">
@@ -363,21 +363,21 @@
             <div class="guide-step-num">2</div>
             <div class="guide-step-body">
               <h4>Describe your subject property</h4>
-              <p>Enter its name, address, market, year built, occupancy, and unit mix. Use <strong>Suggest Pricing</strong> to get a data-driven starting rent for each unit type, benchmarked against your top comps.</p>
+              <p>Enter its name, address, market, year built, and occupancy. Use <strong>Suggest Unit Mix</strong> to auto-populate a data-driven unit count and SF per bedroom type from your loaded comps, then <strong>Suggest Pricing</strong> to fill in a starting rent for each type, benchmarked against your top comps.</p>
             </div>
           </div>
           <div class="guide-step">
             <div class="guide-step-num">3</div>
             <div class="guide-step-body">
               <h4>Apply &amp; Compare</h4>
-              <p>Click "Apply &amp; Compare" to lock in your subject property and unlock the Dashboard, Tables, and Rent Growth tabs.</p>
+              <p>Click "Apply &amp; Compare" to lock in your subject property and unlock the Dashboard, Tables, Map, and Rent Growth tabs.</p>
             </div>
           </div>
           <div class="guide-step">
             <div class="guide-step-num">4</div>
             <div class="guide-step-body">
               <h4>Explore the analysis</h4>
-              <p>Review charts on the Dashboard, detailed side-by-side tables on Tables, and month-over-month rent growth (%) on Rent Growth.</p>
+              <p>Review charts on the Dashboard, detailed side-by-side tables on Tables, comp locations on Map, and month-over-month rent growth (%) on Rent Growth.</p>
             </div>
           </div>
           <div class="guide-step">
@@ -409,6 +409,10 @@
             <div><h4>Tables</h4><p>A sortable property summary and detailed side-by-side comparisons for every bedroom type, with diffs vs. your subject.</p></div>
           </div>
           <div class="guide-tab-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            <div><h4>Map</h4><p>Every comp and your subject plotted on an interactive map &mdash; click a pin for its name, address, and unit count.</p></div>
+          </div>
+          <div class="guide-tab-card">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             <div><h4>Rent Growth</h4><p>% rent growth over time, indexed to each comp's first tracked month &mdash; by bedroom type across comps, and by comp broken out by unit type.</p></div>
           </div>
@@ -424,8 +428,16 @@
       <div class="section-label" style="margin-bottom:0.75rem;">Key Features</div>
       <div class="guide-feature-grid">
         <div class="guide-feature">
+          <div class="guide-feature-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>Suggest Unit Mix</div>
+          <p>Recommends a unit count and SF for each bedroom type from your loaded comps' floorplans &mdash; mix % averaged evenly across comps, SF picked by best $/SF within 5% of that type's typical size &mdash; with a written rationale.</p>
+        </div>
+        <div class="guide-feature">
           <div class="guide-feature-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5L19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5L19 5"/><circle cx="12" cy="12" r="4"/></svg>Suggest Pricing</div>
           <p>Recommends rents for the subject's unit mix, benchmarked to the top comp(s) per bedroom type, with a written rationale.</p>
+        </div>
+        <div class="guide-feature">
+          <div class="guide-feature-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Comp Map</div>
+          <p>Plots every loaded comp and your subject on an interactive map, geocoded automatically &mdash; no need to look up addresses by hand.</p>
         </div>
         <div class="guide-feature">
           <div class="guide-feature-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Yardi + CoStar Import</div>
@@ -446,6 +458,10 @@
         <div class="guide-feature">
           <div class="guide-feature-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>Saved Comparisons</div>
           <p>Save as many subject/comp comparisons as you like, sorted by name or date. Synced to a shared Google Drive folder, so they're available to the whole team &mdash; not just this browser.</p>
+        </div>
+        <div class="guide-feature">
+          <div class="guide-feature-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>Dark Mode</div>
+          <p>Toggle Dark Mode in the header for a full dark theme across every tab, chart, and table &mdash; your choice is remembered on this device.</p>
         </div>
       </div>
     </div>
