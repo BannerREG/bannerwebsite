@@ -1216,7 +1216,7 @@ function renderPropertyCards() {
   document.getElementById('propCount').textContent = properties.length + ' propert' + (properties.length === 1 ? 'y' : 'ies') + ' loaded';
   container.innerHTML = '';
   properties.forEach(prop => {
-    const wtdRent = prop.totalUnits > 0 ? prop.unitTypes.reduce((s,u) => s + u.marketRent * u.units, 0) / prop.totalUnits : 0;
+    const wtdRent = prop.unitTypes.reduce((s,u) => s + u.marketRent * u.units, 0) / itemizedUnits(prop);
     const card = document.createElement('div'); card.className = 'property-card';
     const occVal = prop.occupancy != null ? prop.occupancy : '';
     card.innerHTML = `<div class="name">${esc(prop.name)}</div>
@@ -1627,6 +1627,13 @@ function applySubject() {
 
 function getAllProperties() { return subjectProperty ? [subjectProperty, ...properties] : [...properties]; }
 
+// Weighted-average / mix-% denominator: the sum of units actually itemized in a property's
+// unitTypes rows, NOT p.totalUnits. A Yardi export's "Number of Units" header field can be
+// larger than what's itemized in the rate-history rows (non-revenue, employee, or offline
+// units are often omitted from the per-floorplan breakdown) — dividing a sum over unitTypes
+// by that larger declared total silently deflates every weighted average for that property.
+function itemizedUnits(p) { return p.unitTypes.reduce((s, u) => s + u.units, 0) || 1; }
+
 // ── Dashboard ──
 function renderDashboard() {
   if (!subjectProperty || properties.length === 0) { document.getElementById('dashboardContent').style.display = 'none'; document.getElementById('dashboardEmpty').style.display = 'block'; return; }
@@ -1636,12 +1643,12 @@ function renderDashboard() {
 
 function renderSummaryStats() {
   const container = document.getElementById('summaryStats');
-  const subj = subjectProperty, sT = subj.totalUnits || 1;
+  const subj = subjectProperty, sT = itemizedUnits(subj);
   const sWR = subj.unitTypes.reduce((s,u) => s + u.marketRent * u.units, 0) / sT;
   const sWS = subj.unitTypes.reduce((s,u) => s + u.sqft * u.units, 0) / sT;
   const sPerSF = sWS > 0 ? sWR / sWS : 0;
   let compRents = [];
-  properties.forEach(p => { const t = p.totalUnits || 1; const r = p.unitTypes.reduce((s,u) => s + u.marketRent * u.units, 0) / t; if (r > 0) compRents.push(r); });
+  properties.forEach(p => { const t = itemizedUnits(p); const r = p.unitTypes.reduce((s,u) => s + u.marketRent * u.units, 0) / t; if (r > 0) compRents.push(r); });
   const avgComp = compRents.length > 0 ? compRents.reduce((a,b)=>a+b,0)/compRents.length : 0;
   const diff = avgComp > 0 ? sWR - avgComp : 0, diffPct = avgComp > 0 ? diff / avgComp * 100 : 0;
   container.innerHTML = `
@@ -1690,17 +1697,17 @@ function renderCharts() {
     options: { ...defaultOpts, scales: { y: { beginAtZero: true, ticks: { callback: v=>v.toLocaleString()+' SF', font: chartFont } }, x: { ticks: { font: chartFont } } } }
   });
 
-  const subj = subjectProperty, sRent = subj.totalUnits>0 ? subj.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/subj.totalUnits : 0;
-  const sSF = subj.totalUnits>0 ? subj.unitTypes.reduce((s,u)=>s+u.sqft*u.units,0)/subj.totalUnits : 0;
+  const subj = subjectProperty, sRent = subj.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/itemizedUnits(subj);
+  const sSF = subj.unitTypes.reduce((s,u)=>s+u.sqft*u.units,0)/itemizedUnits(subj);
   const sPsf = sSF>0 ? sRent/sSF : 0;
-  const diffs = properties.map(p => { const t=p.totalUnits||1; return p.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/t - sRent; });
+  const diffs = properties.map(p => { const t=itemizedUnits(p); return p.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/t - sRent; });
   charts.rentDiff = new Chart(document.getElementById('chartRentDiff'), {
     type: 'bar', data: { labels: properties.map(p=>p.name), datasets: [{ label: 'Rent Diff ($)', data: diffs, backgroundColor: diffs.map(d=>d>=0?'#4CAF50':'#E53935'), borderColor: diffs.map(d=>d>=0?'#388E3C':'#C62828'), borderWidth: 1, borderRadius: 2 }] },
     options: { ...defaultOpts, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: v=>(v>=0?'+$':'-$')+Math.abs(v).toLocaleString(), font: chartFont } }, x: { ticks: { font: { ...chartFont, size: 10 } } } } }
   });
 
   const diffsPsf = properties.map(p => {
-    const t=p.totalUnits||1, pR = p.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/t, pSF = p.unitTypes.reduce((s,u)=>s+u.sqft*u.units,0)/t;
+    const t=itemizedUnits(p), pR = p.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/t, pSF = p.unitTypes.reduce((s,u)=>s+u.sqft*u.units,0)/t;
     return (pSF>0 ? pR/pSF : 0) - sPsf;
   });
   charts.rentDiffPsf = new Chart(document.getElementById('chartRentDiffPsf'), {
@@ -1709,7 +1716,7 @@ function renderCharts() {
   });
 
   charts.unitMix = new Chart(document.getElementById('chartUnitMix'), {
-    type: 'bar', data: { labels: labels, datasets: normTypes.map((nt,ni) => ({ label: nt, data: all.map(p => { const a = getAggregatedForType(p,nt); return a ? (a.units / (p.totalUnits||1) * 100) : 0; }), backgroundColor: UNIT_TYPE_COLORS[ni%UNIT_TYPE_COLORS.length]+'88', borderColor: UNIT_TYPE_COLORS[ni%UNIT_TYPE_COLORS.length], borderWidth: 1 })) },
+    type: 'bar', data: { labels: labels, datasets: normTypes.map((nt,ni) => ({ label: nt, data: all.map(p => { const a = getAggregatedForType(p,nt); return a ? (a.units / itemizedUnits(p) * 100) : 0; }), backgroundColor: UNIT_TYPE_COLORS[ni%UNIT_TYPE_COLORS.length]+'88', borderColor: UNIT_TYPE_COLORS[ni%UNIT_TYPE_COLORS.length], borderWidth: 1 })) },
     options: { ...defaultOpts, plugins: { ...defaultOpts.plugins, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + Math.round(ctx.parsed.y) + '%' } } }, scales: { x: { stacked: true, ticks: { font: { ...chartFont, size: 10 } } }, y: { stacked: true, max: 100, ticks: { callback: v=>v+'%', font: chartFont } } } }
   });
 
@@ -1879,7 +1886,7 @@ function renderSummaryTable() {
   const all = getAllProperties();
   // Sort by $/SF descending
   all.sort((a, b) => {
-    const tA = a.totalUnits||1, tB = b.totalUnits||1;
+    const tA = itemizedUnits(a), tB = itemizedUnits(b);
     const wRA = a.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/tA, wSA = a.unitTypes.reduce((s,u)=>s+u.sqft*u.units,0)/tA;
     const wRB = b.unitTypes.reduce((s,u)=>s+u.marketRent*u.units,0)/tB, wSB = b.unitTypes.reduce((s,u)=>s+u.sqft*u.units,0)/tB;
     return (wSB>0?wRB/wSB:0) - (wSA>0?wRA/wSA:0);
@@ -1888,7 +1895,7 @@ function renderSummaryTable() {
   let b = '';
   all.forEach(p => {
     const isS = p.id==='subject', cls = isS?' class="subject-col"':'';
-    const t=p.totalUnits||1, wR=p.unitTypes.reduce((a,u)=>a+u.marketRent*u.units,0)/t, wS=p.unitTypes.reduce((a,u)=>a+u.sqft*u.units,0)/t;
+    const t=itemizedUnits(p), wR=p.unitTypes.reduce((a,u)=>a+u.marketRent*u.units,0)/t, wS=p.unitTypes.reduce((a,u)=>a+u.sqft*u.units,0)/t;
     const rents=p.unitTypes.filter(u=>u.marketRent>0).map(u=>u.marketRent);
     const mapsUrl = p.address ? 'https://www.google.com/maps/search/' + encodeURIComponent(p.address) : '';
     const nameHtml = mapsUrl
@@ -2353,12 +2360,13 @@ async function exportToExcel() {
     const r = 6 + pi;
     const isS = p.id === 'subject';
     const fps = p.unitTypes;
-    const tU = p.totalUnits || fps.reduce((s, u) => s + u.units, 0);
-    const avgSF = tU > 0 ? fps.reduce((s, u) => s + u.sqft * u.units, 0) / tU : 0;
+    const tU = p.totalUnits || fps.reduce((s, u) => s + u.units, 0); // displayed "Units" count — the property's declared total, not the averaging denominator
+    const wtU = itemizedUnits(p); // averaging denominator — must match the unit count actually summed below, which can be less than tU if not every unit is itemized
+    const avgSF = wtU > 0 ? fps.reduce((s, u) => s + u.sqft * u.units, 0) / wtU : 0;
     // fp.marketRent is already each floorplan's own most-recent-month rent from parsing —
     // don't re-derive via the shared `months` array, since a comp with different month
     // headers than the first-loaded comp would silently miss the lookup and zero out.
-    const avgRent = tU > 0 ? fps.reduce((s, u) => s + u.marketRent * u.units, 0) / tU : 0;
+    const avgRent = wtU > 0 ? fps.reduce((s, u) => s + u.marketRent * u.units, 0) / wtU : 0;
     const avgPSF = avgSF > 0 ? avgRent / avgSF : 0;
     if (isS) { subjAvgRent = avgRent; subjAvgPSF = avgPSF; }
 
@@ -2391,9 +2399,10 @@ async function exportToExcel() {
     let cUnits = [], cSFs = [], cRents = [];
     comps.forEach(p => {
       const fps = p.unitTypes;
-      const tU = p.totalUnits || fps.reduce((s, u) => s + u.units, 0);
-      const sf = tU > 0 ? fps.reduce((s, u) => s + u.sqft * u.units, 0) / tU : 0;
-      const rent = tU > 0 ? fps.reduce((s, u) => s + u.marketRent * u.units, 0) / tU : 0;
+      const tU = p.totalUnits || fps.reduce((s, u) => s + u.units, 0); // for the averaged "Units" stat
+      const wtU = itemizedUnits(p); // for the SF/rent averaging denominator
+      const sf = wtU > 0 ? fps.reduce((s, u) => s + u.sqft * u.units, 0) / wtU : 0;
+      const rent = wtU > 0 ? fps.reduce((s, u) => s + u.marketRent * u.units, 0) / wtU : 0;
       cUnits.push(tU); cSFs.push(sf); cRents.push(rent);
     });
     const aU = Math.round(cUnits.reduce((a, b) => a + b, 0) / comps.length);
@@ -2664,7 +2673,10 @@ async function exportToExcel() {
   all.forEach((p, pi) => {
     const r = 4 + pi;
     const isS = p.id === 'subject';
-    const tU = p.totalUnits || p.unitTypes.reduce((s, u) => s + u.units, 0);
+    // Uses the itemized unit count (not p.totalUnits) so this column and the % columns next
+    // to it are always internally consistent — the percentages are relative to what's actually
+    // itemized below, and always sum to ~100% per row.
+    const tU = itemizedUnits(p);
     const fill = isS ? XL_SUBJ_BLUE : (pi % 2 === 1 ? XL_ALT_GRAY : null);
     const sty = isS ? xlBoldStyle(fill) : xlBodyStyle(fill);
 
@@ -2724,7 +2736,7 @@ async function exportToExcel() {
         const sty = isS ? xlBoldStyle(fill) : xlBodyStyle(fill);
         const styL = { ...sty, alignment: { horizontal: 'left' } };
         const pOcc = isS ? (subj.occupancy != null ? subj.occupancy : null) : (p.occupancy != null ? p.occupancy : null);
-        const propTotal = p.totalUnits || 1;
+        const propTotal = itemizedUnits(p);
 
         xlWriteDataCell(ws, r, 1, p.name + (isS ? ' (Subject)' : ''), styL);
         xlWriteDataCell(ws, r, 2, Math.round(agg.sqft), sty, '#,##0');
