@@ -765,6 +765,8 @@ const SUBJECT_COLOR = '#06A3D4';
 const SUBJECT_BORDER_COLOR = '#083B5C';
 const COMP_COLORS = ['#0B3556','#154C73','#1F638F','#2A78A5','#3A8DB8','#4A9FC7','#64AED2','#7ABBDD','#91C8E5','#A8D5EC'];
 const UNIT_TYPE_COLORS = ['#0B3556','#175B82','#21789F','#2F92B9','#4AAACD','#6BBBD9','#8BCBE4','#AAD9EC'];
+// Preserve the original multicolor bedroom-type palette specifically for Unit Mix Distribution.
+const UNIT_MIX_COLORS = ['#5a7da8','#a8706a','#6a9a7a','#b8a66a','#8a7a9a','#6a9a96','#a8856a','#9a7a7a'];
 
 let properties = [];
 let subjectProperty = null;
@@ -1719,7 +1721,7 @@ function renderCharts() {
   });
 
   charts.unitMix = new Chart(document.getElementById('chartUnitMix'), {
-    type: 'bar', data: { labels: labels, datasets: normTypes.map((nt,ni) => ({ label: nt, data: all.map(p => { const a = getAggregatedForType(p,nt); return a ? (a.units / itemizedUnits(p) * 100) : 0; }), backgroundColor: UNIT_TYPE_COLORS[ni%UNIT_TYPE_COLORS.length]+'88', borderColor: UNIT_TYPE_COLORS[ni%UNIT_TYPE_COLORS.length], borderWidth: 1 })) },
+    type: 'bar', data: { labels: labels, datasets: normTypes.map((nt,ni) => ({ label: nt, data: all.map(p => { const a = getAggregatedForType(p,nt); return a ? (a.units / itemizedUnits(p) * 100) : 0; }), backgroundColor: UNIT_MIX_COLORS[ni%UNIT_MIX_COLORS.length]+'88', borderColor: UNIT_MIX_COLORS[ni%UNIT_MIX_COLORS.length], borderWidth: 1 })) },
     options: { ...defaultOpts, plugins: { ...defaultOpts.plugins, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + Math.round(ctx.parsed.y) + '%' } } }, scales: { x: { stacked: true, ticks: { font: { ...chartFont, size: 10 } } }, y: { stacked: true, max: 100, ticks: { callback: v=>v+'%', font: chartFont } } } }
   });
 
